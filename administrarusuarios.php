@@ -153,8 +153,26 @@ $usuarios = $consultaUsuarios->obtenerUsuarios();
             window.location.href = "logic_de_usuarios/eliminar_usuario.php?id=" + usuarioId;
             alert("¡Usuario eliminado con éxito!");
         }
+        
     }
    
+    document.querySelectorAll('.btn-warning').forEach(button => {
+    button.addEventListener('click', function () {
+        const row = this.closest('tr');
+        const cells = row.children;
+
+        // Asegurarse de que los IDs coincidan con el formulario
+        document.getElementById('user_id').value = cells[0].innerText;
+        document.getElementById('NOMBRE').value = cells[1].innerText;
+        document.getElementById('APATERN').value = cells[2].innerText;
+        document.getElementById('AMATERN').value = cells[3].innerText;
+        document.getElementById('telefono').value = cells[4].innerText;
+        document.getElementById('USUARIO').value = cells[5].innerText;
+
+        // Mostrar el modal
+        document.getElementById('myModala').style.display = 'block';
+    });
+});
 </script>
 
 </body>

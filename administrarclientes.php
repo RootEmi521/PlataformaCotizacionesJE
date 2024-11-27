@@ -133,6 +133,30 @@ $clientes = $consultaClientes->obtenerClientes();
       }
     });
   });
+
+  document.querySelectorAll('.btn-warning').forEach(button => {
+    button.addEventListener('click', function () {
+        const row = this.closest('tr'); // Encuentra la fila correspondiente
+        const cells = row.children; // Celdas de la fila
+
+        // Verificar los valores de las celdas de la fila
+        console.log("ID Cliente:", cells[0].innerText); // Muestra el ID de la primera celda
+        console.log("Nombre Empresa:", cells[1].innerText); // Muestra el nombre de la empresa
+        console.log("Nombre Titular:", cells[2].innerText); // Muestra el nombre del titular
+
+        // Rellenar el formulario del modal con los valores de la fila
+        document.getElementById('cliente_id').value = cells[0].innerText; // Asigna el ID al campo oculto
+        document.getElementById('NOMBREEMP').value = cells[1].innerText; // Nombre empresa
+        document.getElementById('TITULAR').value = cells[2].innerText; // Nombre titular
+        document.getElementById('DIRECTOKER').value = cells[3].innerText; // Dirección
+        document.getElementById('PHONE').value = cells[4].innerText; // Teléfono
+        document.getElementById('MAIL').value = cells[5].innerText; // Correo
+
+        // Mostrar el modal
+        document.getElementById('myModala').style.display = 'block';
+    });
+});
+  
 </script>
 
 <!-- Incluir Bootstrap JS -->
