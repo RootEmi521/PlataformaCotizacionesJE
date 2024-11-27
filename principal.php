@@ -7,6 +7,12 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
+require_once 'php/consultacotizaciones.php';
+// Crear una instancia de la clase ConsultaCotizaciones
+$consultaCotizaciones = new ConsultaCotizaciones();
+
+// Llamar a la función para obtener los datos de cotizaciones
+$cotizaciones = $consultaCotizaciones->obtenerCotizaciones();
 // CONTENIDO PAG PRINCIPAL ABAJO
 ?>
 <!DOCTYPE html>
@@ -28,23 +34,14 @@ if (!isset($_SESSION['usuario'])) {
     <link rel="shortcut icon" href="img/logox.ico" type="x-icon">
 </head>
 <body>
-<script src="js/load.js"></script> <!--SCRIPT DEL LOADER -->  
-<div id="loading">
-        <div class="loader">
-            <h1>Jeser Etiquetas</h1>
-        </div>
-    </div>
 
-<div id="content" style="display: none;">
 <?php require_once 'includes/nav.php'; ?>
 <div class="boton"><button type="button" class="btn btn-success" id="openModal">Generar nueva cotizacion</button></div>
 <div id="myModal" class="modal window">
-   <?php include 'logic_de_cotizaciones/crearcotizacion.php';?>
+   <?php include 'logic_de_cotizaciones/crearcotizacion.php'; ?>
 </div>
 
-
-
-<div class="container container-sm contenedor w-auto  ">
+<div class="container container-sm contenedor w-auto">
     <img src="img/logojeser.png" alt="Logo" class="img-fluid w-auto">
 </div>
 
@@ -55,23 +52,44 @@ if (!isset($_SESSION['usuario'])) {
                 <th scope="col">Fecha</th>
                 <th scope="col">Folio</th>
                 <th scope="col">Cliente</th>
-                <th scope="col">Acciones</th>
+                <th scope="col">Usuario</th>
                 <th scope="col">Estatus</th>
+                <th scope="col">Acciones</th>
             </tr>
         </thead>
         <tbody>
+        <?php foreach ($cotizaciones as $cotizacion): ?>
             <tr>
-                <th scope="row">11/08/2024</th>
-                <td>Jeser-1234</td>
-                <td>Coppel</td>
+                <td><?php echo htmlspecialchars($cotizacion['fecha_subida']); ?></td>
+                <td><?php echo htmlspecialchars($cotizacion['folio']); ?></td>
                 <td>
-                    <img src="img/ver.png" alt="ver pdf" class='accion'>
-                    <img src="img/descarga.png" class='accion' alt="descargar pdf">
-                    <img src="img/compartir.png" alt="compartir pdf" class="accion">
+                    <?php 
+                    $clienteNombre = $consultaCotizaciones->obtenerNombreCliente($cotizacion['cliente_id']); 
+                    echo htmlspecialchars($clienteNombre); 
+                    ?>
                 </td>
-                <td>Enviado o no enviado</td>
+                <td>
+                    <?php 
+                    $usuarioNombre = $consultaCotizaciones->obtenerNombreUsuario($cotizacion['usuario_id']); 
+                    echo htmlspecialchars($usuarioNombre); 
+                    ?>
+                </td>
+                <td>
+                    <?php 
+                    $estatus = $consultaCotizaciones->obtenerEstatusCotizacion($cotizacion['folio']); 
+                    echo htmlspecialchars($estatus); 
+                    ?>
+                </td>
+                <td>
+                    <a href="<?php echo 'uploads/' . htmlspecialchars($cotizacion['archivo_pdf']); ?>" target="_blank">Previsualizar</a>
+                    <form method="POST" action="logic_de_envio/envio_cotizacion.php" style="display:inline;">
+                        <input type="hidden" name="cliente_id" value="<?php echo htmlspecialchars($cotizacion['cliente_id']); ?>">
+                        <input type="hidden" name="folio" value="<?php echo htmlspecialchars($cotizacion['folio']); ?>">
+                        <button type="submit" class="btn btn-primary btn-sm">Enviar</button>
+                    </form>
+                </td>
             </tr>
-            <!-- Aquí puedes agregar más filas dinámicamente si es necesario -->
+        <?php endforeach; ?>
         </tbody>
     </table>
 </div>
@@ -107,6 +125,6 @@ if (!isset($_SESSION['usuario'])) {
         });
     });
 </script>
-</div>
+
 </body>
 </html>

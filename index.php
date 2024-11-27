@@ -7,17 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Login</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/loaderpag.css">
     <link rel="shortcut icon" href="img/logox.ico" type="x-icon">
     <link rel="preload" href="img/fondoN.jpg" as="image">
 </head>
 <body>
-<script src="js/load.js"></script> <!--SCRIPT DEL LOADER -->  
-<div id="loading">
-        <div class="loader">
-            <h1>Jeser Etiquetas</h1>
-        </div>
-    </div><!--DIV DEL LOADER-->
+    
+
     <div class="container container-xs tamañologin">
     <div class="card w-80 colorfondologin ">
         <img src="img/logojeser.png" alt="Logo" class="card-img-top">
@@ -39,6 +34,5 @@
             </div>
         </div>
     </div>
-</div>
 </body>
 </html>
